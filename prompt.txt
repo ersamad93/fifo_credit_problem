@@ -1,0 +1,56 @@
+You are asked to implement a parameterized RTL module in SystemVerilog, based on the specification abdus_verilog_repo/sources/Specification.md.
+
+Design a synchronous FIFO with credit-based flow control.
+
+Requirements:
+- Parameter DATA_WIDTH (default 32)
+- Parameter DEPTH (power of 2)
+- Credit count initialized to DEPTH
+- Write allowed only if credits > 0
+- Read allowed only if FIFO not empty
+- On successful write: decrement credits
+- On successful read: increment credits
+- Support simultaneous read and write
+- Maintain strict FIFO ordering
+- No combinational loops
+- Single clock, active-low synchronous reset
+
+Corner Cases
+- Simultaneous wr & rd must not corrupt pointers
+- credit_count must not overflow or underflow
+- Pointer wraparound must be correct
+- rd_data must be stable when rd_valid=1 and rd_ready=0
+- No extra credits allowed
+
+Provide synthesizable SystemVerilog RTL.
+Do not include testbench or assertions.
+
+Partial RTL code
+
+`timescale 1ns/1ps
+module fifo_credit #(
+parameter int DATA_WIDTH = 32,
+parameter int DEPTH = 8,
+localparam int ADDR_W = $clog2(DEPTH)
+)(
+input logic clk,
+input logic rst_n,
+
+
+input logic wr_valid,
+output logic wr_ready,
+input logic [DATA_WIDTH-1:0] wr_data,
+
+
+output logic rd_valid,
+input logic rd_ready,
+output logic [DATA_WIDTH-1:0] rd_data,
+
+
+output logic [ADDR_W:0] credit_count
+);
+
+//Insert RTL implementation here
+
+endmodule
+

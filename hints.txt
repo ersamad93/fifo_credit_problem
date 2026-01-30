@@ -1,0 +1,2 @@
+Credit count and FIFO occupancy are related but not identical. Be careful when updating them during simultaneous read and write operations.
+

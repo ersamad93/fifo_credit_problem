@@ -1,8 +1,8 @@
 module fifo_credit #(
     parameter int DATA_WIDTH = 32,
     parameter int DEPTH = 8,
-    localparam int ADDR_W = $clog2(DEPTH)
-)(
+    parameter int ADDR_W = 3)
+    (
     input  logic                 clk,
     input  logic                 rst_n,
 
@@ -21,4 +21,5 @@ module fifo_credit #(
 
 
 endmodule
+
 

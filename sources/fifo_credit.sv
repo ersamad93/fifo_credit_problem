@@ -2,7 +2,7 @@ module fifo_credit #(
     parameter int DATA_WIDTH = 32,
     parameter int DEPTH = 8,
     parameter int ADDR_W = 3)
-)(
+    (
     input  logic                 clk,
     input  logic                 rst_n,
 
@@ -21,5 +21,6 @@ module fifo_credit #(
 
 
 endmodule
+
 
 

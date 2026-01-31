@@ -17,6 +17,9 @@ module fifo_credit #(
     output logic [ADDR_W:0]       credit_count
 );
 
+//Insert RTL Code here
+
+
     logic [DATA_WIDTH-1:0] mem [DEPTH];
     logic [ADDR_W-1:0] wr_ptr, rd_ptr;
     logic [ADDR_W:0]   fifo_count;
@@ -59,4 +62,5 @@ module fifo_credit #(
     assign rd_data = mem[rd_ptr];
 
 endmodule
+
 

@@ -1,0 +1,37 @@
+[project]
+name = "fifo-credit-problem"
+version = "0.1.0"
+description = "Verilog evaluation framework for HUD"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "click",
+    "pydantic>=2.0",
+    "numpy>=1.20",
+    "defusedxml>=0.7.1",
+    "fastmcp>=0.3.0",
+    "mcp[cli]>=1.10.1",
+    "cocotb>=1.8.0",
+    "pytest>=7.0.0",
+    "pytest-xdist>=3.0.0",
+]
+
+[project.optional-dependencies]
+eval = [
+    "hud-python[agents]>=0.4.74",
+    "fastmcp>=0.3.0",
+    "mcp[cli]>=1.10.1",
+]
+
+[project.scripts]
+hud_eval = "hud_controller.app:main"
+setup_problem = "hud_controller.app:setup_problem_script"
+grade_problem = "hud_controller.app:grade_problem_script"
+validate_problem = "hud_controller.app:validate_problem_script"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hud_controller"]

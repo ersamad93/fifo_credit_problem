@@ -18,5 +18,49 @@ module fifo_credit #(
     output logic [ADDR_W:0]       credit_count
 );
 
-//Implement RTL Logic
+    logic [DATA_WIDTH-1:0] mem [DEPTH];
+    logic [ADDR_W-1:0] wr_ptr, rd_ptr;
+    logic [ADDR_W:0]   fifo_count;
+
+    wire do_wr = wr_valid && wr_ready;
+    wire do_rd = rd_valid && rd_ready;
+
+    assign wr_ready = (credit_count > 0);
+    assign rd_valid = (fifo_count > 0);
+	logic [DATA_WIDTH-1:0] rd_data_r;
+
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            wr_ptr       <= '0;
+            rd_ptr       <= '0;
+            fifo_count  <= '0;
+            credit_count<= DEPTH;
+			rd_data_r <= 0;
+        end else begin
+            case ({do_wr, do_rd})
+                2'b10: begin
+                    mem[wr_ptr] <= wr_data;
+                    wr_ptr <= wr_ptr + 1'b1;
+                    fifo_count <= fifo_count + 1'b1;
+                    credit_count <= credit_count - 1'b1;
+                end
+                2'b01: begin
+					rd_data_r <= mem[rd_ptr];
+                    rd_ptr <= rd_ptr + 1'b1;
+                    fifo_count <= fifo_count - 1'b1;
+                    credit_count <= credit_count + 1'b1;
+                end
+                2'b11: begin
+                    mem[wr_ptr] <= wr_data;
+					rd_data_r <= mem[rd_ptr];
+                    wr_ptr <= wr_ptr + 1'b1;
+                    rd_ptr <= rd_ptr + 1'b1;
+                    // counts unchanged
+                end
+            endcase
+        end
+    end
+
+    assign rd_data = rd_data_r;
+
 endmodule
